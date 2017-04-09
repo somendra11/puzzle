@@ -58,6 +58,7 @@ class Puzzle7(object):
         return re.findall('[a-z]+[\d]+[a-z]+|[a-z]+[\d]+|[\d]+[a-z]+|[a-z]+', text.lower())
 
 
+
     def html_wraper(self, data):
         """create html for tagcloud"""
         
@@ -67,16 +68,19 @@ class Puzzle7(object):
         res += '''
                 <script>
                 $(document).ready(function(){
-                    $(".loginlink").click(function(){
+                    $(".clickit").click(function(){
                         var myClass = $(this).attr("class").split(" ");
                         myClass.shift();
-                        alert(myClass);
+                        $('.file-data').attr('style','display: none');
+                        $.each(myClass, function( index, value ) {
+                          $('#'+value).attr('style','display: inline-block');
+                        });
                     });
                 });
                 </script>'''
         res += '</head><body><div style="word-wrap: break-word;width: 1000px;">'
         res += "&nbsp;".join(
-            '<a href="javascript:void(0)" class="loginlink {}">'
+            '<a href="javascript:void(0)" class="clickit {}">'
             '<span style="font-size: {}; word-wrap: normal;">{}</span></a>'.format( 
                 " ".join(str(i) for i in lines),
                 self.initial_font_size+int(freq),
@@ -109,11 +113,11 @@ class Puzzle7(object):
                 self.file_dict.update({line_number: line})
                 if last:
                     line = last + " " + line
-                
-                last = self.bigram_counter(self.cleanwords(line), line_number)
+                line = [i for i in self.cleanwords(line) if i not in self.noise_data]
+                last = self.bigram_counter(line, line_number)
 
         res = sorted(self.freq_count.items(), key=lambda x: x[0])
-        print str(res)
+        # print str(res)
         return res
 
 
