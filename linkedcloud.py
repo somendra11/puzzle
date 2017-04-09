@@ -55,16 +55,19 @@ class Puzzle6(object):
         res += '''
                 <script>
                 $(document).ready(function(){
-                    $(".loginlink").click(function(){
+                    $(".clickit").click(function(){
                         var myClass = $(this).attr("class").split(" ");
                         myClass.shift();
-                        alert(myClass);
+                        $('.file-data').attr('style','display: none');
+                        $.each(myClass, function( index, value ) {
+                          $('#'+value).attr('style','display: inline-block');
+                        });
                     });
                 });
                 </script>'''
         res += '</head><body><div style="word-wrap: break-word;width: 1000px;">'
         res += "&nbsp;".join(
-            '<a href="javascript:void(0)" class="loginlink {}">'
+            '<a href="javascript:void(0)" class="clickit {}">'
             '<span style="font-size: {}; word-wrap: normal;">{}</span></a>'.format( 
                 " ".join(str(i) for i in lines),
                 self.initial_font_size+int(freq),
