@@ -29,9 +29,12 @@ def wordfreq(data_file_path, noise_file_path):
     """counts the frequency of words in a file."""
     
     with open(data_file_path, 'r') as data_file, open(noise_file_path, "r") as noise_file:
+        counts = {}
         
         noise_data = set(cleanwords(noise_file.read()))
-        counts = Counter(cleanwords(data_file.read()), noise_data)
+        for line in data_file.readlines():
+            counts = Counter(cleanwords(line), noise_data, counts)
+
         return sorted(counts.items(), key=lambda x: -x[1])
 
 
