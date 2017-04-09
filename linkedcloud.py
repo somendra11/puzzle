@@ -58,9 +58,7 @@ class Puzzle6(object):
                     $(".loginlink").click(function(){
                         var myClass = $(this).attr("class").split(" ");
                         myClass.shift();
-                        myClass.each(function() {
-                          alert(this);
-                        });
+                        alert(myClass);
                     });
                 });
                 </script>'''
